@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alterar Usuário</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', Helvetica, sans-serif;
+      background: linear-gradient(90deg, rgba(14, 14, 161, 1) 36%, rgba(0, 212, 255, 1) 100%);
+      padding: 40px;
+    }
+
+    /* Card do formulário */
+    .form-card {
+      background: #ffffff;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      animation: aparecer 0.6s ease;
+    }
+
+    /* Título */
+    .titulo {
+      text-align: center;
+      color: #000000;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+
+    /* Agrupamento de campos */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* Estilização das Labels */
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    /* Estilização dos Inputs */
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      font-family: 'Poppins', Helvetica, sans-serif;
+      font-size: 14px;
+      box-sizing: border-box; /* Garante que o padding não quebre a largura */
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus {
+      border-color: rgba(0, 212, 255, 1);
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+    }
+
+    /* Caixa de botões */
+    .botoes-acao {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    /* Botão de Alterar */
+    .botao-salvar {
+      flex: 1;
+      background: #f6ad55; /* Cor padrão de alteração que usamos no index */
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Poppins', Helvetica, sans-serif;
+    }
+
+    .botao-salvar:hover {
+      background: #dd6b20;
+      transform: scale(1.03);
+    }
+
+    /* Botão de Voltar */
+    .botao-voltar {
+      flex: 1;
+      background: #e2e8f0;
+      color: #333;
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .botao-voltar:hover {
+      background: #cbd5e1;
+      transform: scale(1.03);
+    }
+
+    /* Animação suave ao abrir a tela */
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-card">
+    <h1 class="titulo">Alterar Usuário</h1>
+
+    <form action="/usuario/alterar" method="post">
+      
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" name="nome" value="{{usuario.nome}}" required>
+      </div>
+
+      <div class="form-group">
+        <label>CPF</label>
+        <input type="text" name="cpf" value="{{usuario.cpf}}" required>
+      </div>
+
+      <div class="form-group">
+        <label>Data de Nascimento</label>
+        <input type="date" name="data_nascimento" value="{{usuario.dataNascimento}}" required>
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="text" name="email" value="{{usuario.email}}" required>
+      </div>
+
+      <div class="form-group">
+        <label>CEP</label>
+        <input type="text" name="cep" value="{{usuario.cep}}">
+      </div>
+
+      <div class="form-group">
+        <label>Rua</label>
+        <input type="text" name="rua" value="{{usuario.rua}}">
+      </div>
+
+      <div class="form-group">
+        <label>Complemento</label>
+        <input type="text" name="rua" value="{{usuario.complemento}}">
+      </div>
+
+      <input type="hidden" name="id" value="{{usuario.id}}">
+
+      <div class="botoes-acao">
+        <a href="/usuario" class="botao-voltar">Voltar</a>
+        <input class="botao-salvar" type="submit" value="Salvar Alterações">
+      </div>
+
+    </form>
+  </div>
+
+</body>
+
+</html>

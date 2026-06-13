@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Requerimentos</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --text: #333;
+            --pending: #ffc107;
+            --success: #28a745;
+            --danger: #dc3545;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(90deg, rgba(14, 14, 161, 1) 36%, rgba(0, 212, 255, 1) 100%);
+            color: var(--text);
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        /* Estilo para o botão de Adicionar (Verde) */
+        .btn-add {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Ajuste para alinhar os botões no cabeçalho */
+        .header-actions {
+            display: flex;
+            margin-left: auto;
+            margin-right: 20px;
+            gap: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f4f7f6;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        /* Badges de Status */
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-PENDENTE {
+            background: var(--pending);
+            color: #000;
+        }
+
+        .status-DEFERIDO {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .status-INDEFERIDO {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .btn-edit {
+            background: #e3f2fd;
+            color: #0056b3;
+            margin-right: 5px;
+        }
+
+        .btn-delete {
+            background: #fff5f5;
+            color: #c53030;
+        }
+
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background: #16181a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.918);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📜 Requerimentos</h1>
+
+            <div class="header-actions">
+                <a href="/requerimento/tela_adicionar" class="btn btn-add">
+                    <span>+</span> Novo Requerimento
+                </a>
+
+                <a href="/requerimento/tela_trancamento" class="btn"
+                    style="background: #0056b3; color: white; font-weight: bold; display: inline-flex; align-items: center; gap: 5px;">
+                    <span>🔒</span> Trancamento (Herança)
+                </a>
+            </div>
+
+            <a href="/" class="btn btn-back">⬅ Menu Principal</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Matrícula</th>
+                    <th>Aluno</th>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#vetRequerimento}}
+                <tr>
+                    <td>#{{id}}</td>
+                    <td>{{aluno.matricula}}</td>
+                    <td>{{aluno.usuario.nome}}</td>
+                    <td>{{tipo.descricao}}</td>
+                    <td>{{dataAbertura}}</td>
+                    <td><span class="badge status-{{status}}">{{status}}</span></td>
+                    <td>
+                        <a href="/requerimento/tela_alterar/{{id}}" class="btn btn-edit">Analisar</a>
+                        <a href="/requerimento/excluir/{{id}}" class="btn btn-delete"
+                            onclick="return confirm('Excluir este requerimento?')">Excluir</a>
+                    </td>
+                </tr>
+                {{/vetRequerimento}}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

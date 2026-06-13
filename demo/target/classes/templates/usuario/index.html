@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuários</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(90deg, rgba(14, 14, 161, 1) 36%, rgba(0, 212, 255, 1) 100%);
+      padding: 40px;
+    }
+
+    .wrapper {
+      background: #ffffff;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .titulo {
+      font-weight: 400;
+      text-align: center;
+      color: #000000;
+      margin-top: 0;
+      margin-bottom: 35px;
+    }
+
+    /* Container para alinhar os botões de ação superior */
+    .acoes-topo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .botao-adicionar,
+    .botao-voltar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 220px;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+      border: 1.5px solid rgba(0, 0, 0, 0.774);
+    }
+
+    .botao-adicionar {
+      background: rgba(16, 107, 25, 0.733);
+      color: #000000;
+    }
+
+    .botao-adicionar:hover {
+      background: rgba(21, 180, 36, 0.93);
+      transform: scale(1.05);
+    }
+
+    /* Estilo do botão voltar */
+    .botao-voltar {
+      background: #4a5568;
+      color: #ffffff;
+      border: 1.5px solid #2d3748;
+    }
+
+    .botao-voltar:hover {
+      background: #2d3748;
+      transform: scale(1.05);
+    }
+
+    .lista-usuarios {
+      list-style: none;
+      padding: 0;
+      margin: auto;
+    }
+
+    .lista-usuarios li {
+      background: white;
+      margin-bottom: 15px;
+      padding: 18px;
+      border-radius: 14px;
+      font-size: 18px;
+      color: #333;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .lista-usuarios li:hover {
+      border: 1.5px solid #000000;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.678);
+    }
+
+    .nome-usuario {
+      font-weight: bold;
+    }
+
+    .badge {
+      background: #667eea;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    .btn-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-excluir {
+      background: #ff4d4d;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-excluir:hover {
+      background: #e60000;
+      transform: scale(1.08);
+    }
+
+    .btn-alterar {
+      background: #f6ad55;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .btn-alterar:hover {
+      background: #dd6b20;
+      transform: scale(1.08);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="titulo">Lista de Usuários</h1>
+    </header>
+
+    <div class="acoes-topo">
+      <a class="botao-adicionar" href="/usuario/tela_adicionar">
+        <i class="fa-solid fa-plus"></i> Adicionar Usuário
+      </a>
+
+      <a class="botao-voltar" href="/">
+        <i class="fa-solid fa-house"></i> Voltar ao Início
+      </a>
+    </div>
+
+    <ul class="lista-usuarios">
+      {{#vetUsuario}}
+      <li>
+        <div>
+          <span class="badge">ID {{id}}</span>
+          <span class="nome-usuario">{{nome}}</span>
+        </div>
+
+        <div class="btn-box">
+          <a class="btn-alterar" href="/usuario/tela_alterar/{{id}}">Alterar</a>
+
+          <form action="/usuario/excluir/{{id}}" method="post" style="display:inline;">
+            <button class="btn-excluir" title="Excluir" onclick="return confirm('Excluir o usuario {{nome}}?')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </form>
+        </div>
+      </li>
+      {{/vetUsuario}}
+    </ul>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Curso do Aluno</title>
+    <style>
+        /* Variáveis de cores padronizadas */
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #004494;
+            --warning-color: #ffc107;
+            --warning-hover: #e0a800;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --input-focus: rgba(255, 193, 7, 0.25);
+        }
+
+        /* Reset Básico */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container (Card) */
+        .card {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.6rem;
+        }
+
+        /* Estilização para centralizar o Avatar */
+        .perfil-avatar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Grupos de Formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* Inputs */
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: #fafafa;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="file"] {
+            background-color: transparent;
+            border: none;
+            padding: 5px 0;
+        }
+
+        /* Efeito de foco */
+        input:not(:disabled):focus {
+            outline: none;
+            border-color: var(--warning-color);
+            box-shadow: 0 0 0 3px var(--input-focus);
+            background-color: #fff;
+        }
+
+        /* Inputs de leitura (Desabilitados) */
+        .readonly-input {
+            background-color: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+            border-color: #ced4da;
+        }
+
+        /* Botão de Salvar */
+        button {
+            background-color: var(--warning-color);
+            color: #212529;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--warning-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Link de Voltar */
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .voltar:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 25px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Alterar Dados do Aluno</h2>
+
+        <div class="perfil-avatar">
+            <img src="/aluno/foto/{{aluno.matricula}}" alt="Foto do Aluno"
+                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border-color);">
+        </div>
+
+        <form action="/aluno/foto/upload" method="POST" enctype="multipart/form-data" class="form-group">
+            <input type="hidden" name="matricula" value="{{aluno.matricula}}">
+
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="/aluno/foto/excluir/{{aluno.matricula}}"
+                    style="color: #dc3545; text-decoration: none; font-size: 14px; font-weight: 600;"
+                    onclick="return confirm('Tem certeza que deseja remover a foto de perfil?');">
+                    <i class="fa-solid fa-trash"></i> Excluir Foto
+                </a>
+
+                <label for="foto_perfil">Alterar Foto de Perfil:</label>
+                <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*" required>
+
+                <button type="submit"
+                    style="padding: 10px; font-size: 0.95rem; background-color: #6c757d; color: white;">Atualizar
+                    Foto</button>
+        </form>
+
+        <hr>
+
+        <form action="/aluno/alterar" method="POST">
+            <input type="hidden" name="matricula" value="{{aluno.matricula}}">
+
+            <div class="form-group">
+                <label for="matricula_visual">Matrícula do Aluno:</label>
+                <input type="text" id="matricula_visual" value="{{aluno.matricula}}" class="readonly-input" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="nome_aluno">Nome do Aluno:</label>
+                <input type="text" id="nome_aluno" value="{{aluno.usuario.nome}}" class="readonly-input" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="curso_atual">Curso Atual:</label>
+                <input type="text" id="curso_atual" value="{{aluno.curso.nome}}" class="readonly-input" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="curso_id">Digite o Novo ID do Curso:</label>
+                <input type="number" id="curso_id" name="curso_id" value="{{aluno.curso.id}}" required
+                    placeholder="Ex: 101">
+            </div>
+
+            <button type="submit">Salvar Alteração do Aluno</button>
+        </form>
+
+        <a href="/requerimento" class="voltar">← Voltar para a Listagem</a>
+    </div>
+
+</body>
+
+</html>

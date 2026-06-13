@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Alunos</title>
+    <style>
+        /* Variáveis de cores para facilitar a manutenção */
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #004494;
+            --success-color: #28a745;
+            --success-hover: #218838;
+            --warning-color: #ffc107;
+            --warning-hover: #e0a800;
+            --danger-color: #dc3545;
+            --danger-hover: #c82333;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+        }
+
+        /* Reset e Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container Principal (Estilo Card) */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        /* Botões */
+        .btn {
+            padding: 10px 16px;
+            text-decoration: none;
+            color: white;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-add {
+            background-color: var(--success-color);
+        }
+
+        .btn-add:hover {
+            background-color: var(--success-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-edit {
+            background-color: var(--warning-color);
+            color: #212529;
+        }
+
+        .btn-edit:hover {
+            background-color: var(--warning-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background-color: var(--danger-color);
+        }
+
+        .btn-delete:hover {
+            background-color: var(--danger-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Tabela */
+        .table-responsive {
+            overflow-x: auto;
+            /* Evita que a tabela quebre o layout no celular */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        tr:hover {
+            background-color: #f1f3f5;
+        }
+
+        /* Rodapé / Voltar */
+        .voltar {
+            margin-top: 25px;
+            display: inline-block;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .voltar:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+
+        <div class="container">
+            <div class="header">
+                <h1>Lista de Alunos</h1>
+                <div class="header-actions">
+                    <a href="/" class="btn btn-back">⬅ Voltar ao Menu</a>
+                    <a href="/aluno/tela_adicionar" class="btn btn-add">+ Novo Aluno</a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome do Aluno</th>
+                            <th>Curso Matriculado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#vetAluno}}
+                        <tr>
+                            <td><strong>{{matricula}}</strong></td>
+                            <td>{{usuario.nome}}</td>
+                            <td>{{curso.nome}}</td>
+
+                            <td>
+                                <div class="btn-group">
+                                    <a href="/aluno/tela_alterar/{{matricula}}" class="btn btn-edit">Alterar</a>
+                                    <a href="/aluno/excluir/{{matricula}}" class="btn btn-delete"
+                                        onclick="return confirm('Tem certeza que deseja excluir o vínculo deste aluno?');">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/vetAluno}}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </body>
+
+</body>
+
+</html>

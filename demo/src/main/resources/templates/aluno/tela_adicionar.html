@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Aluno</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #004494;
+            --success-color: #28a745;
+            --success-hover: #218838;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --input-focus: rgba(0, 86, 179, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            /* Corrigido de 'column' para 'center' */
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Cabeçalho do Card */
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            color: var(--text-color);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        /* Botão Voltar discreto */
+        .btn-back {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: #eee;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #e2e2e2;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px var(--input-focus);
+        }
+
+        /* Botão de Ação Principal */
+        .btn-submit {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--success-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h2>Novo Aluno</h2>
+            <a href="/aluno" class="btn-back">⬅ Voltar</a>
+        </div>
+
+        <form action="/aluno/adicionar" method="POST">
+
+            <div class="form-group">
+                <label for="matricula">Matrícula (10 dígitos):</label>
+                <input type="text" id="matricula" name="matricula" required maxlength="10"
+                    placeholder="Digite a matrícula...">
+            </div>
+
+            <div class="form-group">
+                <label for="usuario_id">Selecionar Usuário:</label>
+                <select id="usuario_id" name="usuario_id" required>
+                    <option value="" disabled selected>-- Escolha um usuário --</option>
+                    {{#usuarios}}
+                    <option value="{{id}}">{{nome}} ({{cpf}})</option>
+                    {{/usuarios}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="matricula">Matrícula (Exatamente 10 números):</label>
+                <input type="text" id="matricula" name="matricula" required minlength="10" maxlength="10"
+                    placeholder="Ex: 2024000001">
+            </div>
+
+            <button type="submit" class="btn-submit">Finalizar Matrícula</button>
+        </form>
+    </div>
+</body>
+
+</html>

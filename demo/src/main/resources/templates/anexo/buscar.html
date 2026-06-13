@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca Avançada de Anexos (JSONB)</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --primary-hover: #004494;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        select {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #6c757d;
+            padding: 20px;
+        }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Filtro de Arquivos por Tipo (JSONB)</h2>
+
+        <form action="/anexo/buscar" method="GET" class="search-box">
+            <select name="mime_type" required>
+                <option value="">-- Selecione o Tipo de Arquivo --</option>
+                <option value="application/pdf">Documentos PDF (application/pdf)</option>
+                <option value="image/jpeg">Imagens JPEG (image/jpeg)</option>
+                <option value="image/png">Imagens PNG (image/png)</option>
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+
+        {{#mimeTypeSelecionado}}
+        <h3>Resultados para: <code>{{mimeTypeSelecionado}}</code></h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Anexo</th>
+                    <th>ID Requerimento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#anexos}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{requerimento.id}}</td>
+                    <td>
+                        <a href="/anexo/download/{{id}}" target="_blank"
+                            style="color: var(--primary-color); margin-right: 15px; text-decoration: none;">
+                            <i class="fa-solid fa-eye"></i> Visualizar
+                        </a>
+                        <a href="/anexo/excluir/{{id}}?mime_type={{mimeTypeSelecionado}}"
+                            style="color: #dc3545; text-decoration: none;"
+                            onclick="return confirm('Tem certeza que deseja apagar permanentemente este anexo?');">
+                            <i class="fa-solid fa-trash"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+                {{/anexos}}
+
+                {{^anexos}}
+                <tr>
+                    <td colspan="3" class="no-results">Nenhum arquivo deste tipo foi encontrado no banco de dados.</td>
+                </tr>
+                {{/anexos}}
+            </tbody>
+        </table>
+        {{/mimeTypeSelecionado}}
+
+        <a href="/aluno" class="voltar">← Voltar para a Listagem de Alunos</a>
+    </div>
+
+</body>
+
+</html>

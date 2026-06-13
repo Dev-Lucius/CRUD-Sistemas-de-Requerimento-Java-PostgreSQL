@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Status - Requerimento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 480px;
+        }
+
+        h2,
+        h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: #555;
+            margin-top: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-group {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-group p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .info-group strong {
+            color: #555;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilização da lista de downloads */
+        .anexos-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 20px 0;
+        }
+
+        .anexo-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-download {
+            background: #3182ce;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-download:hover {
+            background: #2b6cb0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Avaliar Requerimento</h2>
+
+        {{#requerimento}}
+        <div class="info-group">
+            <p><strong>Protocolo:</strong> #{{id}}</p>
+
+            <p><strong>Matrícula do Aluno:</strong> {{aluno.matricula}}</p>
+
+            <p><strong>Tipo de Requerimento:</strong> {{tipoRequerimento.descricao}}</p>
+
+            <p><strong>Status Atual:</strong> {{status.getDescricao}}</p>
+        </div>
+
+        <h3><i class="fa-solid fa-paperclip"></i> Arquivos Anexados</h3>
+        <ul class="anexos-list">
+            {{#listaAnexos}}
+            <li class="anexo-item">
+                <div>
+                    <i class="fa-solid fa-file-pdf" style="color: #e53e3e; margin-right: 5px;"></i>
+                    <span>Documento #{{id}}</span>
+                </div>
+                <div>
+                    <a href="/anexo/download/{{id}}" target="_blank" class="btn-download">
+                        <i class="fa-solid fa-download"></i> Baixar
+                    </a>
+                </div>
+            </li>
+            {{/listaAnexos}}
+
+            {{^listaAnexos}}
+            <p style="color: #64748b; font-style: italic; font-size: 0.9rem; margin: 10px 0 20px 0;">
+                Nenhum arquivo anexado a este requerimento.
+            </p>
+            {{/listaAnexos}}
+        </ul>
+
+        <form action="/requerimento/alterar" method="POST">
+            <input type="hidden" name="id" value="{{id}}">
+
+            <label for="status">Decisão Final:</label>
+            <select name="status" id="status">
+                <option value="PENDENTE">⏳ Manter em Análise</option>
+                <option value="DEFERIDO">✅ Deferir (Aprovar)</option>
+                <option value="INDEFERIDO">❌ Indeferir (Reprovar)</option>
+            </select>
+
+            <button type="submit" class="btn-submit">Confirmar Alteração</button>
+        </form>
+        {{/requerimento}}
+
+        <a href="/requerimento" class="back-link">← Cancelar e Voltar</a>
+    </div>
+
+</body>
+
+</html>

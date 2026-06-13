@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Requerimento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2, h3 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Estilização específica para o botão de upload de arquivo */
+        input[type="file"] {
+            background: #fdfdfd;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        /* Container de Detalhes Estilizado */
+        .detalhes-container {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0056b3;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 14px;
+            background: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-save:hover {
+            background: #004494;
+        }
+
+        .btn-cancel {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-cancel:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>
+            {{#requerimento}}📜 Detalhes do Requerimento #{{id}}{{/requerimento}}
+            {{^requerimento}}📜 Novo Requerimento{{/requerimento}}
+        </h2>
+        
+        <form action="/requerimento/abrir" method="POST" enctype="multipart/form-data">
+
+            <label for="aluno_matricula">Matrícula do Aluno:</label>
+            <input type="text" id="aluno_matricula" name="aluno_matricula" placeholder="Digite os 10 dígitos" required
+                minlength="10" maxlength="10" value="{{aluno_matricula}}">
+
+            <label for="tipo_id">Tipo de Requerimento:</label>
+            <select name="tipo_id" id="tipo_id" required>
+                <option value="">Selecione...</option>
+                <option value="1">Trancamento de Matrícula</option>
+                <option value="2">Segunda Chamada de Prova</option>
+                <option value="3">Ajuste de Grade</option>
+            </select>
+
+            {{^requerimento}}
+            <div class="form-group">
+                <label for="documento_anexo">Documento Comprovante (PDF ou Imagem):</label>
+                <input type="file" id="documento_anexo" name="documento_anexo" accept="application/pdf, image/*" required>
+            </div>
+            {{/requerimento}}
+
+            {{#requerimento}}
+            <div class="detalhes-container">
+                <p><strong>Status Atual:</strong> {{status}}</p>
+                <hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 15px 0;">
+
+                <h3><i class="fa-solid fa-paperclip"></i> Arquivos Anexados</h3>
+
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    {{#listaAnexos}}
+                    <li style="background: white; padding: 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0;">
+                        <div>
+                            <i class="fa-solid fa-file-pdf" style="color: #e53e3e; margin-right: 10px;"></i>
+                            <span>Anexo Código #{{id}}</span>
+                        </div>
+
+                        <div class="acoes-anexo">
+                            <a href="/anexo/download/{{id}}" target="_blank"
+                                style="background: #3182ce; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold;">
+                                <i class="fa-solid fa-download"></i> Baixar / Visualizar
+                            </a>
+                        </div>
+                    </li>
+                    {{/listaAnexos}}
+
+                    {{^listaAnexos}}
+                    <p style="color: #64748b; font-style: italic; font-size: 0.9rem;">Nenhum arquivo anexado a este requerimento.</p>
+                    {{/listaAnexos}}
+                </ul>
+            </div>
+            {{/requerimento}}
+
+            <label for="observacao">Observação:</label>
+            <textarea id="observacao" name="observacao" placeholder="Descreva seu pedido...">{{observacao}}</textarea>
+
+            <button type="submit" class="btn-save">
+                {{#requerimento}}Atualizar Requerimento{{/requerimento}}
+                {{^requerimento}}Enviar Requerimento{{/requerimento}}
+            </button>
+            
+            <a href="/requerimento" class="btn-cancel">Voltar para Lista</a>
+        </form>
+    </div>
+</body>
+
+</html>
